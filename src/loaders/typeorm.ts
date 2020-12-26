@@ -1,3 +1,5 @@
+import { Category } from './../models/entity/category';
+import { Order } from './../models/entity/order';
 import { Cart } from './../models/entity/cart';
 import { Product } from './../models/entity/product';
 import { User } from './../models/entity/user';
@@ -17,7 +19,9 @@ export default async () => {
         entities: [
           User,
           Product,
-          Cart
+          Cart,
+          Order,
+          Category
         ],
         synchronize: true
     });
