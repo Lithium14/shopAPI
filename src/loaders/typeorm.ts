@@ -1,6 +1,9 @@
-import { Sport } from '../models/entity/sport'
-
+import { Cart } from './../models/entity/cart';
+import { Product } from './../models/entity/product';
+import { User } from './../models/entity/user';
 import { createConnection, Connection } from  'typeorm';
+// TODO process env data
+
 
 export default async () => {
 
@@ -11,7 +14,11 @@ export default async () => {
         username: 'newuser',
         password: 'password',
         database: 'shoppingAPI',
-        entities: ['models/entity/*.ts'],
+        entities: [
+          User,
+          Product,
+          Cart
+        ],
         synchronize: true
     });
 

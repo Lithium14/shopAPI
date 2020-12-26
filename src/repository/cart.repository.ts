@@ -1,32 +1,26 @@
+import { Cart } from '../models/entity/cart'
+import { EntityRepository, Repository} from 'typeorm'
+
 /**
  * Cette classe est un repository
  * C'est ici qu'on met tout les accès à la bdd
  * Attention, aucune logique javascript ne doit apparaitre ici.
  * Il s'agit seulement de la couche de récupération des données (requete sql)
  */
-export class SportRepository {
+@EntityRepository(Cart)
+export class CartRepository extends Repository<Cart> {
 
-  private static instance: SportRepository;
+  private static instance: CartRepository;
 
   static getInstance() {
       if (!this.instance) {
-          this.instance = new SportRepository();
+          this.instance = new CartRepository();
       }
       return this.instance;
   }
 
   private constructor() {
+    super();
   }
 
-  findAll() {
-      //
-  }
-
-  findById(id: number) {
-      // votre code ici
-  }
-
-  save(sport: any) {
-      // votre code ici
-  }
 }
