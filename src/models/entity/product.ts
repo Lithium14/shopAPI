@@ -6,16 +6,16 @@ export class Product {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  name! : string;
+  @Column( {nullable: true} )
+  name!: string;
 
-  @Column()
-  price! : string;
+  @Column({nullable: true})
+  price!: string;
 
-  @Column()
-  quantity! : string;
+  @Column({nullable: true})
+  quantity!: string;
 
-  @Column()
+  @Column({nullable: true})
   image!: string;
 
 }

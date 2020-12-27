@@ -1,11 +1,11 @@
-import express from 'express';
 import 'reflect-metadata';
+import express from 'express';
+import loaders from './loaders';
 import { UserController } from './controller/user.controller';
 import { ProductController } from './controller/product.controller';
 import { CartController } from './controller/cart.controller';
 import { CategoryController } from './controller/category.controller';
 
-import loaders from './loaders';
 
 async function startServer() {
     // Récupération de l'application initiale
