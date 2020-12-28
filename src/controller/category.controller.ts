@@ -13,33 +13,54 @@ export const CategoryController = (app: Application) => {
     const categoryRouter: Router = express.Router();
     const categoryService = CategoryService.getInstance();
 
-    categoryRouter.get('/', (req: Request, res: Response) => {
-      const result = categoryService.getAll();
-      res.send(result);
-    });
-
-    categoryRouter.get('/:id', (req: Request, res: Response) => {
-      const result = categoryService.getById(parseInt(req.params.id, 10));
-      res.send(result);
-    });
-
-    categoryRouter.post('/', (req: Request, res: Response) => {
-        const categoryObject = req.body;
-        const result = categoryService.addCategory(categoryObject);
+    categoryRouter.get('/', async (req: Request, res: Response) => {
+      try {
+        const result = await categoryService.getAll();
         res.send(result);
+      } catch (error) {
+        res.status(404).send(`La liste des categories de produit n'a pas pu être affiché`)
+      }
     });
 
-    categoryRouter.put('/:id', (req: Request, res: Response) => {
+    categoryRouter.get('/:id', async (req: Request, res: Response) => {
+      const categoryId = parseInt(req.params.id, 10);
+      try {
+        const result = await categoryService.getById(categoryId);
+        res.send(result);
+      } catch (error) {
+        res.status(404).send(`L'id ${categoryId} n'a pas pu être affiché`)
+      }
+    });
+
+    categoryRouter.post('/', async (req: Request, res: Response) => {
+      const categoryObject = req.body;
+      try {
+        const result = await categoryService.addCategory(categoryObject);
+        res.send(result);
+      } catch (error) {
+        res.status(404).send(`la catégorie n'a pas pu être ajouté`)
+      }
+    });
+
+    categoryRouter.put('/:id', async (req: Request, res: Response) => {
       const categoryId = parseInt((req.params.id),10);
       const categoryObject = req.body;
-      const result = categoryService.updateCategory(categoryId, categoryObject);
-      res.send(result);
+      try {
+        const result = await categoryService.updateCategory(categoryId, categoryObject);
+        res.send(result);
+      } catch (error) {
+        res.status(404).send(`La catégorie ${categoryId} n'a pas pu être modifié`)
+      }
     });
 
-    categoryRouter.delete('/:id', (req: Request, res: Response) => {
+    categoryRouter.delete('/:id', async (req: Request, res: Response) => {
       const categoryId = parseInt((req.params.id),10);
-      const result = categoryService.delete(categoryId);
-      res.send(result);
+      try {
+        const result = await categoryService.delete(categoryId);
+        res.send(result);
+      } catch (error) {
+        res.status(404).send(`L'utilisateur avec l'id ${categoryId} n'a pas pu être supprimé`)
+      }
     })
 
     app.use('/categories', categoryRouter);

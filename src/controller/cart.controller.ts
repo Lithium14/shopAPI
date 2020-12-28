@@ -13,33 +13,55 @@ export const CartController = (app: Application) => {
     const cartsRouter: Router = express.Router();
     const cartService = CartService.getInstance();
 
-    cartsRouter.get('/', (req: Request, res: Response) => {
-      const result = cartService.getAll();
+    cartsRouter.get('/', async (req: Request, res: Response) => {
+      try {
+        const result = await cartService.getAll();
         res.send(result);
+      } catch (error) {
+        res.status(404).send(`Le panier n'a pas pu être affiché`)
+      }
     });
 
-    cartsRouter.get('/:id', (req: Request, res: Response) => {
-      const result =cartService.getById(parseInt(req.params.id, 10));
+    cartsRouter.get('/:id', async (req: Request, res: Response) => {
+      const cartId = parseInt(req.params.id, 10)
+      try {
+        const result = await cartService.getById(cartId);
         res.send(result);
+      } catch (error) {
+        res.status(404).send(`Le panier ${cartId} n'a pas pu être récupéré`)
+      }
     });
 
-    cartsRouter.post('/', (req: Request, res: Response) => {
-        const cart = req.body;
-        res.send(cartService.addCart(cart));
+    cartsRouter.post('/', async (req: Request, res: Response) => {
+      const cart = req.body;
+      try {
+        const result = await cartService.addCart(cart);
+        res.send(result);
+      } catch (error) {
+        res.status(404).send(`Le panier n'a pas pu être posté`)
+      }
 
     });
 
-    cartsRouter.put('/', (req: Request, res: Response) => {
+    cartsRouter.put('/', async (req: Request, res: Response) => {
       const cartId = parseInt(req.params.id, 10);
       const newCart = req.body
-      const result = cartService.updateCart(cartId, newCart);
-      res.send(result);
+      try {
+        const result = await cartService.updateCart(cartId, newCart);
+        res.send(result);
+      } catch (error) {
+        res.status(404).send(`Le panier n'a pas pu être modifié`)
+      }
     })
 
-    cartsRouter.delete('/:id',(req: Request, res: Response) => {
+    cartsRouter.delete('/:id', async (req: Request, res: Response) => {
       const cartId = parseInt(req.params.id, 10);
-      const result = cartService.delete(cartId);
-      res.send(result);
+      try {
+        const result = await cartService.delete(cartId);
+        res.send(result);
+      } catch (error) {
+        res.status(404).send(`Le panier ${cartId} n'a pas pu être supprimé`)
+      }
     })
 
     app.use('/carts', cartsRouter);
